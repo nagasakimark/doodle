@@ -4,51 +4,106 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>Doodle Time!</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✏️</text></svg>">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<button id="mute" class="icon-btn" aria-label="Sound on/off" title="Sound">🔊</button>
+
+<!-- Robot, shared by every screen that needs him -->
+<template id="robotTpl">
+  <svg class="robot" viewBox="0 0 120 120" aria-hidden="true">
+    <line x1="60" y1="8" x2="60" y2="22" class="r-ink" stroke-width="5" stroke-linecap="round"/>
+    <circle class="r-bulb" cx="60" cy="8" r="7"/>
+    <rect class="r-head" x="14" y="22" width="92" height="76" rx="26"/>
+    <rect class="r-ear" x="4" y="52" width="12" height="22" rx="5"/>
+    <rect class="r-ear" x="104" y="52" width="12" height="22" rx="5"/>
+    <g class="r-eyes">
+      <circle class="r-eye" cx="42" cy="56" r="14"/><circle class="r-eye" cx="78" cy="56" r="14"/>
+      <circle class="r-pupil" cx="42" cy="56" r="6"/><circle class="r-pupil" cx="78" cy="56" r="6"/>
+    </g>
+    <g class="r-happyeyes">
+      <path d="M28 60 Q42 42 56 60" class="r-line"/><path d="M64 60 Q78 42 92 60" class="r-line"/>
+    </g>
+    <path class="r-mouth r-m-idle" d="M44 82 Q60 90 76 82"/>
+    <path class="r-mouth r-m-happy" d="M40 78 Q60 100 80 78 Z"/>
+    <path class="r-mouth r-m-sad" d="M44 88 Q60 76 76 88"/>
+    <ellipse class="r-m-think" cx="60" cy="84" rx="7" ry="5"/>
+  </svg>
+</template>
+
 <main>
+  <!-- START -->
   <section id="start" class="screen">
-    <h1>✏️ Doodle Time!</h1>
-    <p class="sub">Draw the word. Can the computer guess it?</p>
-    <button id="startBtn" class="big" disabled>Loading brain…</button>
-    <p id="loadMsg" class="small">Loading the doodle model (first time takes a few seconds)</p>
+    <div class="hero">
+      <div class="robot-slot" data-mood="idle"></div>
+      <h1>Doodle<br>Time!</h1>
+      <p class="sub">Draw the word.<br>Can the robot guess it?</p>
+      <button id="startBtn" class="btn big go" disabled>Loading…</button>
+    </div>
   </section>
 
+  <!-- GAME -->
   <section id="game" class="screen hidden">
-    <div class="top">
-      <div id="round">1 / 5</div>
-      <div id="timer">20</div>
-      <div id="score">⭐ 0</div>
+    <header class="bar">
+      <div class="pill" id="round">1 / 5</div>
+      <div class="ring" id="ring">
+        <svg viewBox="0 0 44 44"><circle class="ring-bg" cx="22" cy="22" r="19"/><circle id="ringFill" class="ring-fill" cx="22" cy="22" r="19"/></svg>
+        <span id="timer">20</span>
+      </div>
+      <div class="pill" id="score">0 pts</div>
+    </header>
+
+    <div class="stage">
+      <div class="sheet" id="sheet">
+        <div class="wordtag"><span>Draw</span><b id="word">apple</b><button id="speak" class="icon-btn small" aria-label="Listen">🔊</button></div>
+        <canvas id="pad" width="320" height="320"></canvas>
+        <div class="tools">
+          <button id="undoBtn" class="btn sm">↩ Undo</button>
+          <button id="clearBtn" class="btn sm">🗑 Clear</button>
+        </div>
+      </div>
+      <aside class="bot">
+        <div class="robot-slot" id="gameBot" data-mood="idle"></div>
+        <div class="bubble" id="bubble">Start drawing!</div>
+      </aside>
     </div>
-    <div class="prompt">
-      <span>Draw:</span> <strong id="word">apple</strong>
-      <button id="speak" title="Listen" aria-label="Listen">🔊</button>
-    </div>
-    <div class="timebar"><div id="timebarFill"></div></div>
-    <canvas id="pad" width="320" height="320"></canvas>
-    <div id="guess" class="guess">I see…</div>
-    <div class="row">
-      <button id="clearBtn">🗑 Clear</button>
+
+    <!-- intro card: shows the word before the clock starts -->
+    <div id="intro" class="overlay">
+      <div class="card">
+        <p class="small-label">Draw this in 20 seconds</p>
+        <div class="introword" id="introWord">apple</div>
+        <button id="introSpeak" class="btn sm">🔊 Listen</button>
+        <button id="introGo" class="btn big go">Let's draw!</button>
+      </div>
     </div>
   </section>
 
+  <!-- RESULT -->
   <section id="result" class="screen hidden">
-    <div id="resultEmoji">🎉</div>
-    <h2 id="resultTitle">I got it!</h2>
-    <p id="resultEn" class="resultEn"></p>
-    <p id="resultJa" class="resultJa"></p>
-    <canvas id="resultImg" width="160" height="160"></canvas>
-    <button id="nextBtn" class="big">Next ▶</button>
+    <div class="card result" id="resultCard">
+      <div class="stamp" id="stamp">Got it!</div>
+      <img id="resultImg" alt="Your drawing">
+      <div class="resultEn" id="resultEn"></div>
+      <div class="resultJa" id="resultJa"></div>
+      <div class="thought" id="thought"></div>
+      <div class="points" id="points"></div>
+      <button id="nextBtn" class="btn big go">Next</button>
+    </div>
   </section>
 
+  <!-- END -->
   <section id="end" class="screen hidden">
-    <h2>Finished!</h2>
-    <p id="finalScore" class="resultEn"></p>
-    <ul id="summary"></ul>
-    <button id="againBtn" class="big">Play again</button>
+    <h2>All done!</h2>
+    <div class="final"><span id="finalPts">0</span><small>points</small></div>
+    <p class="sub" id="finalLine"></p>
+    <ul id="gallery" class="gallery"></ul>
+    <button id="againBtn" class="btn big go">Play again</button>
   </section>
 </main>
+
+<canvas id="confetti"></canvas>
 
 <!-- ml5 pinned to 0.12.2: DoodleNet (345 Quick Draw classes) is available in the 0.x line -->
 <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js"></script>

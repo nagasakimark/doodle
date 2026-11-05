@@ -5,7 +5,7 @@ A Quick, Draw!-style classroom game. Students draw the English word shown, and t
 Static site, no build step. Serve the folder (`python3 -m http.server`) or enable GitHub Pages.
 
 ## Files
-- `index.html`, `style.css`, `game.js`: the game
+- `index.html`, `style.css`, `game.js`: the game (UI, sounds and confetti are all generated in code, no asset files)
 - `words.js`: 145 words from the New Horizon Elementary vocabulary list that DoodleNet can recognise (generated from `NHElementaryVocab.xlsx`)
 
 ## Settings (top of `game.js`)
