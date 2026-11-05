@@ -20,6 +20,7 @@ const jaHTML = (w) => (w.fu ? `<ruby>${w.ja}<rt>${w.fu}</rt></ruby>` : w.ja);
 function show(name) {
   screens.forEach((s) => $(s).classList.toggle('hidden', s !== name)); window.scrollTo(0, 0);
   $('help').classList.toggle('hidden', name === 'game' || name === 'result');   // don't open the tutorial mid-round
+  $('qr').classList.toggle('hidden', name === 'game' || name === 'result');
 }
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -351,6 +352,8 @@ let seen = false;
 try { seen = localStorage.getItem('doodle-tutorial-seen') === '1'; } catch (e) { /* ignore */ }
 if (!seen) openTutorial();   // first visit: show how to play
 
+$('qr').innerHTML = QRPLAY.icon(24);
+$('qr').onclick = () => { unlockAudio(); sfx.pop(); QRPLAY.open(); };
 $('startBtn').onclick = startGame;
 $('introGo').onclick = beginDrawing;
 $('introSpeak').onclick = () => speak(state.word.en);

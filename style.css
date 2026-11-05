@@ -46,6 +46,7 @@ main { width: 100%; max-width: 1400px; padding: 10px 14px 14px; position: relati
 .icon-btn.small { width: 36px; height: 36px; font-size: 1rem; }
 #mute { position: fixed; top: 10px; right: 10px; z-index: 30; }
 #help { position: fixed; top: 10px; right: 66px; z-index: 30; font-weight: 800; font-family: inherit; }
+#qr { position: fixed; top: 10px; right: 122px; z-index: 30; display: grid; place-items: center; color: var(--ink); }
 
 /* ---------- start ---------- */
 .hero { padding-top: 4vh; display: flex; flex-direction: column; align-items: center; gap: 6px; }
