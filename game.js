@@ -15,7 +15,12 @@ const BASE_POINTS = 100, POINTS_PER_SECOND = 10;
 
 const $ = (id) => document.getElementById(id);
 const screens = ['start', 'game', 'result', 'end'];
-function show(name) { screens.forEach((s) => $(s).classList.toggle('hidden', s !== name)); window.scrollTo(0, 0); }
+// Japanese word with its reading above any kanji (students are in years 3-6)
+const jaHTML = (w) => (w.fu ? `<ruby>${w.ja}<rt>${w.fu}</rt></ruby>` : w.ja);
+function show(name) {
+  screens.forEach((s) => $(s).classList.toggle('hidden', s !== name)); window.scrollTo(0, 0);
+  $('help').classList.toggle('hidden', name === 'game' || name === 'result');   // don't open the tutorial mid-round
+}
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ---------- robot ----------
@@ -178,9 +183,21 @@ function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.fl
 const norm = (s) => s.toLowerCase().replace(/_/g, ' ');
 const article = (w) => (/^[aeiou]/i.test(w) ? 'an' : 'a');
 
+// ---------- grade picker ----------
+let grade = 0;   // 0 = every grade
+try { grade = Number(localStorage.getItem('doodle-grade')) || 0; } catch (e) { /* storage optional */ }
+function paintGrade() { document.querySelectorAll('.chip').forEach((c) => c.setAttribute('aria-pressed', String(Number(c.dataset.grade) === grade))); }
+document.querySelectorAll('.chip').forEach((c) => c.addEventListener('click', () => {
+  grade = Number(c.dataset.grade); paintGrade(); sfx.pop();
+  try { localStorage.setItem('doodle-grade', String(grade)); } catch (e) { /* ignore */ }
+}));
+paintGrade();
+
 function startGame() {
   unlockAudio();
-  deck = shuffle(WORDS.slice()).slice(0, ROUNDS);
+  let pool = WORDS.filter((w) => !grade || w.grades.includes(grade));
+  if (pool.length < ROUNDS) pool = WORDS;
+  deck = shuffle(pool.slice()).slice(0, ROUNDS);
   state.round = 0; state.score = 0; state.log = [];
   $('score').textContent = '0 pts';
   nextRound();
@@ -289,7 +306,7 @@ function showResult(won, w, pts, img) {
   $('stamp').textContent = won ? ['Got it!', 'Nice!', 'Wow!', 'Yes!'][state.round % 4] : "Time's up!";
   $('resultImg').src = img;
   $('resultEn').textContent = won ? `It's ${article(w.en)} ${w.en}!` : `You were drawing: ${w.en}`;
-  $('resultJa').textContent = w.ja;
+  $('resultJa').innerHTML = jaHTML(w);
   $('thought').textContent = won ? '' : (state.lastGuess ? `I thought it was ${article(state.lastGuess)} ${state.lastGuess}.` : "I couldn't see anything.");
   $('points').innerHTML = won ? `<b>+${pts}</b> points` : '';
   $('score').textContent = `${state.score} pts`;
@@ -305,7 +322,7 @@ function endGame() {
   $('finalPts').textContent = state.score;
   $('finalLine').textContent = wins === ROUNDS ? 'Perfect! The robot guessed every one!' : `The robot guessed ${wins} of ${ROUNDS}.`;
   $('gallery').innerHTML = state.log.map((l) =>
-    `<li class="${l.won ? 'won' : 'lost'}"><span class="badge">${l.won ? '✓' : '✗'}</span><img src="${l.img}" alt=""><div class="en">${l.word.en}</div><div class="ja">${l.word.ja}</div></li>`).join('');
+    `<li class="${l.won ? 'won' : 'lost'}"><span class="badge">${l.won ? '✓' : '✗'}</span><img src="${l.img}" alt=""><div class="en">${l.word.en}</div><div class="ja">${jaHTML(l.word)}</div></li>`).join('');
   show('end');
   if (wins >= 3) { sfx.fanfare(); burst(200); }
   setTimeout(() => $('againBtn').focus(), 50);
@@ -320,6 +337,20 @@ function speak(text) {
   } catch (e) { /* speech is optional */ }
 }
 
+// ---------- tutorial modal ----------
+const tutorial = $('tutorial');
+function openTutorial() { tutorial.classList.remove('hidden'); $('tutOk').focus(); }
+function closeTutorial() {
+  tutorial.classList.add('hidden');
+  try { localStorage.setItem('doodle-tutorial-seen', '1'); } catch (e) { /* ignore */ }
+}
+$('help').onclick = () => { unlockAudio(); sfx.pop(); openTutorial(); };
+$('tutOk').onclick = () => { unlockAudio(); sfx.start(); closeTutorial(); };
+tutorial.addEventListener('click', (e) => { if (e.target === tutorial) closeTutorial(); });
+let seen = false;
+try { seen = localStorage.getItem('doodle-tutorial-seen') === '1'; } catch (e) { /* ignore */ }
+if (!seen) openTutorial();   // first visit: show how to play
+
 $('startBtn').onclick = startGame;
 $('introGo').onclick = beginDrawing;
 $('introSpeak').onclick = () => speak(state.word.en);
@@ -327,6 +358,8 @@ $('speak').onclick = () => speak(state.word.en);
 $('nextBtn').onclick = () => { unlockAudio(); nextRound(); };
 $('againBtn').onclick = startGame;
 document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !tutorial.classList.contains('hidden')) { closeTutorial(); return; }
+  if (!tutorial.classList.contains('hidden')) return;   // keys belong to the modal while it is open
   if (e.key === 'z' && (e.ctrlKey || e.metaKey)) { $('undoBtn').click(); return; }
   if (e.key !== ' ' && e.key !== 'Enter') return;
   if (!$('intro').classList.contains('hidden') && !$('game').classList.contains('hidden')) { e.preventDefault(); beginDrawing(); }

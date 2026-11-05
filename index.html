@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<button id="help" class="icon-btn" aria-label="あそびかた" title="あそびかた">？</button>
 <button id="mute" class="icon-btn" aria-label="Sound on/off" title="Sound">🔊</button>
 
 <!-- Robot, shared by every screen that needs him -->
@@ -39,6 +40,14 @@
       <div class="robot-slot" data-mood="idle"></div>
       <h1>Doodle<br>Time!</h1>
       <p class="sub">Draw the word.<br>Can the robot guess it?</p>
+      <div class="grades" role="group" aria-label="なんねんせい？">
+        <span class="grade-label">なんねんせい？</span>
+        <button class="chip" data-grade="3" aria-pressed="false">3年</button>
+        <button class="chip" data-grade="4" aria-pressed="false">4年</button>
+        <button class="chip" data-grade="5" aria-pressed="false">5年</button>
+        <button class="chip" data-grade="6" aria-pressed="false">6年</button>
+        <button class="chip" data-grade="0" aria-pressed="true">ぜんぶ</button>
+      </div>
       <button id="startBtn" class="btn big go" disabled>Loading…</button>
     </div>
   </section>
@@ -103,6 +112,21 @@
     <button id="againBtn" class="btn big go">Play again</button>
   </section>
 </main>
+
+<!-- how-to-play modal (simple Japanese) -->
+<div id="tutorial" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="tutTitle">
+  <div class="card tut">
+    <h2 id="tutTitle">あそびかた</h2>
+    <ol class="steps">
+      <li><span class="ico">🔢</span><span>ぜんぶで 5かい あるよ。</span></li>
+      <li><span class="ico">🔤</span><span>1かいごとに、えいごの たんごが 1つ でるよ。</span></li>
+      <li><span class="ico">✏️</span><span>その たんごの えを かこう。<br>ロボットが あてて くれるよ！</span></li>
+      <li><span class="ico">💭</span><span>たんごが わからなかったら、<br>「こんな ものかな？」と そうぞうして<br>かいてみよう！</span></li>
+    </ol>
+    <p class="tut-time">⏱ じかんは 20びょう！</p>
+    <button id="tutOk" class="btn big go">わかった！</button>
+  </div>
+</div>
 
 <canvas id="confetti"></canvas>
 

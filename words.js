@@ -1,874 +1,1402 @@
-// Generated from NHElementaryVocab.xlsx (New Horizon Elementary 5-6) x DoodleNet's 345 classes.
-// en: word shown to the student, ja: shown when time runs out, cls: DoodleNet label to match.
+// Words the robot can recognise (DoodleNet classes) that appear in the students' textbooks.
+// Built from the LT1 / LT2 / NH5 / NH6 / Picture Dictionary vocab lists. Left out: colors, shapes, and anything too hard to draw.
+// en: word shown to the student | ja/fu: Japanese and its reading, shown when time runs out | cls: DoodleNet label to match
+// grades: school years (3-6) whose books contain the word (LT1=3, LT2=4, NH5=5, NH6=6, Picture Dictionary=5-6)
 const WORDS = [
  {
-  "en": "circle",
-  "ja": "円",
-  "cls": "circle",
-  "genre": "形"
- },
- {
-  "en": "diamond",
-  "ja": "ひし形",
-  "cls": "diamond",
-  "genre": "形"
- },
- {
-  "en": "square",
-  "ja": "正方形",
-  "cls": "square",
-  "genre": "形"
- },
- {
-  "en": "star",
-  "ja": "星形",
-  "cls": "star",
-  "genre": "形"
- },
- {
-  "en": "triangle",
-  "ja": "三角形",
-  "cls": "triangle",
-  "genre": "形"
+  "en": "banana",
+  "ja": "バナナ",
+  "fu": "",
+  "cls": "banana",
+  "grades": [
+   3,
+   4,
+   5,
+   6
+  ]
  },
  {
   "en": "baseball",
   "ja": "野球",
+  "fu": "やきゅう",
   "cls": "baseball",
-  "genre": "スポーツ"
+  "grades": [
+   3,
+   5,
+   6
+  ]
  },
  {
   "en": "basketball",
   "ja": "バスケットボール",
+  "fu": "",
   "cls": "basketball",
-  "genre": "スポーツ"
- },
- {
-  "en": "bread",
-  "ja": "パン",
-  "cls": "bread",
-  "genre": "食べ物"
- },
- {
-  "en": "sandwich",
-  "ja": "サンドイッチ",
-  "cls": "sandwich",
-  "genre": "食べ物"
- },
- {
-  "en": "pizza",
-  "ja": "ピザ",
-  "cls": "pizza",
-  "genre": "食べ物"
- },
- {
-  "en": "hamburger",
-  "ja": "ハンバーガー",
-  "cls": "hamburger",
-  "genre": "食べ物"
- },
- {
-  "en": "hot dog",
-  "ja": "ホットドッグ",
-  "cls": "hot_dog",
-  "genre": "食べ物"
- },
- {
-  "en": "steak",
-  "ja": "ステーキ",
-  "cls": "steak",
-  "genre": "食べ物"
- },
- {
-  "en": "cake",
-  "ja": "ケーキ",
-  "cls": "cake",
-  "genre": "デザート"
- },
- {
-  "en": "donut",
-  "ja": "ドーナツ",
-  "cls": "donut",
-  "genre": "デザート"
- },
- {
-  "en": "ice cream",
-  "ja": "アイスクリーム",
-  "cls": "ice_cream",
-  "genre": "デザート"
- },
- {
-  "en": "cookie",
-  "ja": "クッキー",
-  "cls": "cookie",
-  "genre": "デザート"
- },
- {
-  "en": "apple",
-  "ja": "リンゴ",
-  "cls": "apple",
-  "genre": "果物・野菜"
- },
- {
-  "en": "banana",
-  "ja": "バナナ",
-  "cls": "banana",
-  "genre": "果物・野菜"
- },
- {
-  "en": "broccoli",
-  "ja": "ブロッコリー",
-  "cls": "broccoli",
-  "genre": "果物・野菜"
+  "grades": [
+   3,
+   5,
+   6
+  ]
  },
  {
   "en": "carrot",
-  "ja": "ニンジン",
+  "ja": "にんじん",
+  "fu": "",
   "cls": "carrot",
-  "genre": "果物・野菜"
- },
- {
-  "en": "grapes",
-  "ja": "ブドウ",
-  "cls": "grapes",
-  "genre": "果物・野菜"
- },
- {
-  "en": "mushroom",
-  "ja": "キノコ",
-  "cls": "mushroom",
-  "genre": "果物・野菜"
- },
- {
-  "en": "onion",
-  "ja": "タマネギ",
-  "cls": "onion",
-  "genre": "果物・野菜"
- },
- {
-  "en": "pineapple",
-  "ja": "パイナップル",
-  "cls": "pineapple",
-  "genre": "果物・野菜"
- },
- {
-  "en": "potato",
-  "ja": "ジャガイモ",
-  "cls": "potato",
-  "genre": "果物・野菜"
- },
- {
-  "en": "strawberry",
-  "ja": "イチゴ",
-  "cls": "strawberry",
-  "genre": "果物・野菜"
- },
- {
-  "en": "watermelon",
-  "ja": "スイカ",
-  "cls": "watermelon",
-  "genre": "果物・野菜"
- },
- {
-  "en": "pear",
-  "ja": "洋ナシ",
-  "cls": "pear",
-  "genre": "果物・野菜"
- },
- {
-  "en": "fish",
-  "ja": "魚",
-  "cls": "fish",
-  "genre": "食材"
- },
- {
-  "en": "octopus",
-  "ja": "タコ",
-  "cls": "octopus",
-  "genre": "食材"
- },
- {
-  "en": "crab",
-  "ja": "カニ",
-  "cls": "crab",
-  "genre": "食材"
- },
- {
-  "en": "bear",
-  "ja": "クマ",
-  "cls": "bear",
-  "genre": "動物"
- },
- {
-  "en": "elephant",
-  "ja": "ゾウ",
-  "cls": "elephant",
-  "genre": "動物"
- },
- {
-  "en": "tiger",
-  "ja": "トラ",
-  "cls": "tiger",
-  "genre": "動物"
- },
- {
-  "en": "lion",
-  "ja": "ライオン",
-  "cls": "lion",
-  "genre": "動物"
- },
- {
-  "en": "horse",
-  "ja": "ウマ",
-  "cls": "horse",
-  "genre": "動物"
- },
- {
-  "en": "zebra",
-  "ja": "シマウマ",
-  "cls": "zebra",
-  "genre": "動物"
- },
- {
-  "en": "camel",
-  "ja": "ラクダ",
-  "cls": "camel",
-  "genre": "動物"
- },
- {
-  "en": "giraffe",
-  "ja": "キリン",
-  "cls": "giraffe",
-  "genre": "動物"
- },
- {
-  "en": "monkey",
-  "ja": "サル",
-  "cls": "monkey",
-  "genre": "動物"
- },
- {
-  "en": "panda",
-  "ja": "パンダ",
-  "cls": "panda",
-  "genre": "動物"
- },
- {
-  "en": "dog",
-  "ja": "イヌ",
-  "cls": "dog",
-  "genre": "動物"
+  "grades": [
+   3,
+   4,
+   5,
+   6
+  ]
  },
  {
   "en": "cat",
-  "ja": "ネコ",
+  "ja": "猫",
+  "fu": "ねこ",
   "cls": "cat",
-  "genre": "動物"
- },
- {
-  "en": "rabbit",
-  "ja": "ウサギ",
-  "cls": "rabbit",
-  "genre": "動物"
- },
- {
-  "en": "crocodile",
-  "ja": "ワニ",
-  "cls": "crocodile",
-  "genre": "動物"
- },
- {
-  "en": "snake",
-  "ja": "ヘビ",
-  "cls": "snake",
-  "genre": "動物"
- },
- {
-  "en": "frog",
-  "ja": "カエル",
-  "cls": "frog",
-  "genre": "動物"
- },
- {
-  "en": "bird",
-  "ja": "鳥",
-  "cls": "bird",
-  "genre": "動物"
+  "grades": [
+   3,
+   5,
+   6
+  ]
  },
  {
   "en": "cow",
-  "ja": "ウシ",
+  "ja": "牛",
+  "fu": "うし",
   "cls": "cow",
-  "genre": "動物"
+  "grades": [
+   3,
+   5,
+   6
+  ]
  },
  {
-  "en": "pig",
-  "ja": "ブタ",
-  "cls": "pig",
-  "genre": "動物"
- },
- {
-  "en": "kangaroo",
-  "ja": "カンガルー",
-  "cls": "kangaroo",
-  "genre": "動物"
- },
- {
-  "en": "sheep",
-  "ja": "ヒツジ",
-  "cls": "sheep",
-  "genre": "動物"
- },
- {
-  "en": "duck",
-  "ja": "アヒル",
-  "cls": "duck",
-  "genre": "動物"
- },
- {
-  "en": "snail",
-  "ja": "カタツムリ",
-  "cls": "snail",
-  "genre": "動物"
- },
- {
-  "en": "dragon",
-  "ja": "ドラゴン、竜",
-  "cls": "dragon",
-  "genre": "動物"
- },
- {
-  "en": "mountain",
-  "ja": "山",
-  "cls": "mountain",
-  "genre": "自然"
- },
- {
-  "en": "river",
-  "ja": "川",
-  "cls": "river",
-  "genre": "自然"
- },
- {
-  "en": "beach",
-  "ja": "ビーチ",
-  "cls": "beach",
-  "genre": "自然"
- },
- {
-  "en": "ocean",
-  "ja": "海",
-  "cls": "ocean",
-  "genre": "自然"
- },
- {
-  "en": "pond",
-  "ja": "池",
-  "cls": "pond",
-  "genre": "自然"
- },
- {
-  "en": "tree",
-  "ja": "木",
-  "cls": "tree",
-  "genre": "自然（モノ系）"
- },
- {
-  "en": "flower",
-  "ja": "花",
-  "cls": "flower",
-  "genre": "自然（モノ系）"
- },
- {
-  "en": "cloud",
-  "ja": "雲",
-  "cls": "cloud",
-  "genre": "自然（天気系）"
- },
- {
-  "en": "rain",
-  "ja": "雨",
-  "cls": "rain",
-  "genre": "自然（天気系）"
- },
- {
-  "en": "rainbow",
-  "ja": "虹",
-  "cls": "rainbow",
-  "genre": "自然（天気系）"
- },
- {
-  "en": "sun",
-  "ja": "太陽",
-  "cls": "sun",
-  "genre": "自然（宇宙系）"
- },
- {
-  "en": "moon",
-  "ja": "月",
-  "cls": "moon",
-  "genre": "自然（宇宙系）"
- },
- {
-  "en": "whale",
-  "ja": "クジラ",
-  "cls": "whale",
-  "genre": "海の生き物"
- },
- {
-  "en": "dolphin",
-  "ja": "イルカ",
-  "cls": "dolphin",
-  "genre": "海の生き物"
- },
- {
-  "en": "penguin",
-  "ja": "ペンギン",
-  "cls": "penguin",
-  "genre": "海の生き物"
- },
- {
-  "en": "sea turtle",
-  "ja": "ウミガメ",
-  "cls": "sea_turtle",
-  "genre": "海の生き物"
- },
- {
-  "en": "shark",
-  "ja": "サメ",
-  "cls": "shark",
-  "genre": "海の生き物"
- },
- {
-  "en": "ant",
-  "ja": "アリ",
-  "cls": "ant",
-  "genre": "虫"
- },
- {
-  "en": "butterfly",
-  "ja": "チョウ",
-  "cls": "butterfly",
-  "genre": "虫"
- },
- {
-  "en": "spider",
-  "ja": "クモ",
-  "cls": "spider",
-  "genre": "虫"
- },
- {
-  "en": "mosquito",
-  "ja": "蚊",
-  "cls": "mosquito",
-  "genre": "虫"
- },
- {
-  "en": "watch",
-  "ja": "（テレビなどを）見る",
-  "cls": "wristwatch",
-  "genre": "動作など（６年）"
- },
- {
-  "en": "T-shirt",
-  "ja": "Tシャツ",
-  "cls": "t-shirt",
-  "genre": "衣類"
- },
- {
-  "en": "sweater",
-  "ja": "セーター",
-  "cls": "sweater",
-  "genre": "衣類"
- },
- {
-  "en": "pants",
-  "ja": "ズボン",
-  "cls": "pants",
-  "genre": "衣類"
- },
- {
-  "en": "hat",
-  "ja": "（ふちのある）ぼうし",
-  "cls": "hat",
-  "genre": "衣類"
- },
- {
-  "en": "socks",
-  "ja": "靴下",
-  "cls": "sock",
-  "genre": "衣類"
- },
- {
-  "en": "shoes",
-  "ja": "靴",
-  "cls": "shoe",
-  "genre": "衣類"
- },
- {
-  "en": "jacket",
-  "ja": "ジャケット",
-  "cls": "jacket",
-  "genre": "衣類"
- },
- {
-  "en": "glasses",
-  "ja": "メガネ",
-  "cls": "eyeglasses",
-  "genre": "衣類"
- },
- {
-  "en": "face",
-  "ja": "顔",
-  "cls": "face",
-  "genre": "からだ"
- },
- {
-  "en": "hand",
-  "ja": "手",
-  "cls": "hand",
-  "genre": "からだ"
- },
- {
-  "en": "arm",
-  "ja": "腕",
-  "cls": "arm",
-  "genre": "からだ"
- },
- {
-  "en": "knee",
-  "ja": "ひざ",
-  "cls": "knee",
-  "genre": "からだ"
- },
- {
-  "en": "eye",
-  "ja": "目",
-  "cls": "eye",
-  "genre": "からだ"
+  "en": "dog",
+  "ja": "犬",
+  "fu": "いぬ",
+  "cls": "dog",
+  "grades": [
+   3,
+   5,
+   6
+  ]
  },
  {
   "en": "ear",
   "ja": "耳",
+  "fu": "みみ",
   "cls": "ear",
-  "genre": "からだ"
+  "grades": [
+   3,
+   5,
+   6
+  ]
  },
  {
-  "en": "nose",
-  "ja": "鼻",
-  "cls": "nose",
-  "genre": "からだ"
+  "en": "elephant",
+  "ja": "象",
+  "fu": "ぞう",
+  "cls": "elephant",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "eye",
+  "ja": "目",
+  "fu": "め",
+  "cls": "eye",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "horse",
+  "ja": "馬",
+  "fu": "うま",
+  "cls": "horse",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "knee",
+  "ja": "膝",
+  "fu": "ひざ",
+  "cls": "knee",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "monkey",
+  "ja": "猿",
+  "fu": "さる",
+  "cls": "monkey",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "moon",
+  "ja": "三日月",
+  "fu": "みかづき",
+  "cls": "moon",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "mouse",
+  "ja": "鼠",
+  "fu": "ねずみ",
+  "cls": "mouse",
+  "grades": [
+   3,
+   5,
+   6
+  ]
  },
  {
   "en": "mouth",
   "ja": "口",
+  "fu": "くち",
   "cls": "mouth",
-  "genre": "からだ"
+  "grades": [
+   3,
+   5,
+   6
+  ]
  },
  {
-  "en": "leg",
-  "ja": "脚",
-  "cls": "leg",
-  "genre": "からだ"
+  "en": "nose",
+  "ja": "鼻",
+  "fu": "はな",
+  "cls": "nose",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "onion",
+  "ja": "玉ねぎ",
+  "fu": "たまねぎ",
+  "cls": "onion",
+  "grades": [
+   3,
+   4,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "owl",
+  "ja": "梟",
+  "fu": "ふくろう",
+  "cls": "owl",
+  "grades": [
+   3
+  ]
+ },
+ {
+  "en": "panda",
+  "ja": "パンダ",
+  "fu": "",
+  "cls": "panda",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "pineapple",
+  "ja": "パイナップル",
+  "fu": "",
+  "cls": "pineapple",
+  "grades": [
+   3,
+   4,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "rabbit",
+  "ja": "兎",
+  "fu": "うさぎ",
+  "cls": "rabbit",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "sheep",
+  "ja": "羊",
+  "fu": "ひつじ",
+  "cls": "sheep",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "snake",
+  "ja": "蛇",
+  "fu": "へび",
+  "cls": "snake",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "soccer",
+  "ja": "サッカー",
+  "fu": "",
+  "cls": "soccer_ball",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "spider",
+  "ja": "蜘蛛",
+  "fu": "くも",
+  "cls": "spider",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "strawberry",
+  "ja": "いちご",
+  "fu": "",
+  "cls": "strawberry",
+  "grades": [
+   3,
+   5,
+   6
+  ]
+ },
+ {
+  "en": "tiger",
+  "ja": "虎",
+  "fu": "とら",
+  "cls": "tiger",
+  "grades": [
+   3,
+   5,
+   6
+  ]
  },
  {
   "en": "toe",
   "ja": "足の指",
+  "fu": "あしのゆび",
   "cls": "toe",
-  "genre": "からだ"
+  "grades": [
+   3,
+   5,
+   6
+  ]
  },
  {
-  "en": "elbow",
-  "ja": "ひじ",
-  "cls": "elbow",
-  "genre": "からだ"
+  "en": "tree",
+  "ja": "木",
+  "fu": "き",
+  "cls": "tree",
+  "grades": [
+   3,
+   5,
+   6
+  ]
  },
  {
-  "en": "house",
-  "ja": "家",
-  "cls": "house",
-  "genre": "町"
+  "en": "apple",
+  "ja": "りんご",
+  "fu": "",
+  "cls": "apple",
+  "grades": [
+   4,
+   5,
+   6
+  ]
  },
  {
-  "en": "hospital",
-  "ja": "病院",
-  "cls": "hospital",
-  "genre": "町"
+  "en": "hat",
+  "ja": "帽子",
+  "fu": "ぼうし",
+  "cls": "hat",
+  "grades": [
+   4,
+   5,
+   6
+  ]
  },
  {
-  "en": "castle",
-  "ja": "城",
-  "cls": "castle",
-  "genre": "町"
+  "en": "mushroom",
+  "ja": "きのこ",
+  "fu": "",
+  "cls": "mushroom",
+  "grades": [
+   4,
+   5,
+   6
+  ]
  },
  {
-  "en": "church",
-  "ja": "教会",
-  "cls": "church",
-  "genre": "町"
+  "en": "pants",
+  "ja": "ズボン",
+  "fu": "",
+  "cls": "pants",
+  "grades": [
+   4,
+   5,
+   6
+  ]
  },
  {
-  "en": "bus",
-  "ja": "バス",
-  "cls": "bus",
-  "genre": "町（乗り物）"
+  "en": "pencil",
+  "ja": "鉛筆",
+  "fu": "えんぴつ",
+  "cls": "pencil",
+  "grades": [
+   4,
+   5,
+   6
+  ]
  },
  {
-  "en": "bike",
-  "ja": "自転車",
-  "cls": "bicycle",
-  "genre": "町（乗り物）"
- },
- {
-  "en": "train",
-  "ja": "電車",
-  "cls": "train",
-  "genre": "町（乗り物）"
- },
- {
-  "en": "garden",
-  "ja": "庭園",
-  "cls": "garden",
-  "genre": "町"
- },
- {
-  "en": "bridge",
-  "ja": "橋",
-  "cls": "bridge",
-  "genre": "町"
+  "en": "shorts",
+  "ja": "短パン",
+  "fu": "たんぱん",
+  "cls": "shorts",
+  "grades": [
+   4
+  ]
  },
  {
   "en": "airplane",
   "ja": "飛行機",
+  "fu": "ひこうき",
   "cls": "airplane",
-  "genre": "町（乗り物）"
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "car",
-  "ja": "車",
-  "cls": "car",
-  "genre": "町（乗り物）"
+  "en": "ant",
+  "ja": "蟻",
+  "fu": "あり",
+  "cls": "ant",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "truck",
-  "ja": "トラック",
-  "cls": "truck",
-  "genre": "町（乗り物）"
+  "en": "arm",
+  "ja": "腕",
+  "fu": "うで",
+  "cls": "arm",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "van",
-  "ja": "バン",
-  "cls": "van",
-  "genre": "町（乗り物）"
+  "en": "bag",
+  "ja": "かばん",
+  "fu": "",
+  "cls": "backpack",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "boat",
-  "ja": "ボート",
-  "cls": "sailboat",
-  "genre": "町（乗り物）"
+  "en": "basket",
+  "ja": "かご",
+  "fu": "",
+  "cls": "basket",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "ship",
-  "ja": "船",
-  "cls": "cruise_ship",
-  "genre": "町（乗り物）"
+  "en": "bat",
+  "ja": "バット",
+  "fu": "",
+  "cls": "baseball_bat",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "traffic light",
-  "ja": "信号",
-  "cls": "traffic_light",
-  "genre": "道案内"
+  "en": "bath",
+  "ja": "風呂",
+  "fu": "ふろ",
+  "cls": "bathtub",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "crayon",
-  "ja": "クレヨン",
-  "cls": "crayon",
-  "genre": "文房具"
- },
- {
-  "en": "marker",
-  "ja": "マーカー",
-  "cls": "marker",
-  "genre": "文房具"
- },
- {
-  "en": "pencil",
-  "ja": "えんぴつ",
-  "cls": "pencil",
-  "genre": "文房具"
- },
- {
-  "en": "eraser",
-  "ja": "消しゴム",
-  "cls": "eraser",
-  "genre": "文房具"
- },
- {
-  "en": "scissors",
-  "ja": "はさみ",
-  "cls": "scissors",
-  "genre": "文房具"
- },
- {
-  "en": "piano",
-  "ja": "ピアノ",
-  "cls": "piano",
-  "genre": "楽器"
- },
- {
-  "en": "guitar",
-  "ja": "ギター",
-  "cls": "guitar",
-  "genre": "楽器"
- },
- {
-  "en": "violin",
-  "ja": "バイオリン",
-  "cls": "violin",
-  "genre": "楽器"
- },
- {
-  "en": "drum",
-  "ja": "ドラム",
-  "cls": "drums",
-  "genre": "楽器"
- },
- {
-  "en": "racket",
-  "ja": "ラケット",
-  "cls": "tennis_racquet",
-  "genre": "身の回りのもの"
- },
- {
-  "en": "umbrella",
-  "ja": "かさ",
-  "cls": "umbrella",
-  "genre": "身の回りのもの"
- },
- {
-  "en": "mug",
-  "ja": "マグカップ",
-  "cls": "mug",
-  "genre": "身の回りのもの"
- },
- {
-  "en": "TV",
-  "ja": "テレビ",
-  "cls": "television",
-  "genre": "身の回りのもの"
- },
- {
-  "en": "computer",
-  "ja": "コンピューター",
-  "cls": "computer",
-  "genre": "身の回りのもの"
- },
- {
-  "en": "chair",
-  "ja": "いす",
-  "cls": "chair",
-  "genre": "身の回りのもの"
+  "en": "bear",
+  "ja": "熊",
+  "fu": "くま",
+  "cls": "bear",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
   "en": "bed",
   "ja": "ベッド",
+  "fu": "",
   "cls": "bed",
-  "genre": "身の回りのもの"
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "basket",
-  "ja": "バスケット、かご",
-  "cls": "basket",
-  "genre": "身の回りのもの"
+  "en": "bike",
+  "ja": "自転車",
+  "fu": "じてんしゃ",
+  "cls": "bicycle",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "bird",
+  "ja": "鳥",
+  "fu": "とり",
+  "cls": "bird",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "boat",
+  "ja": "ボート",
+  "fu": "",
+  "cls": "sailboat",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
   "en": "book",
   "ja": "本",
+  "fu": "ほん",
   "cls": "book",
-  "genre": "身の回りのもの"
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "calendar",
-  "ja": "カレンダー",
-  "cls": "calendar",
-  "genre": "身の回りのもの"
+  "en": "bread",
+  "ja": "パン",
+  "fu": "",
+  "cls": "bread",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "map",
-  "ja": "地図",
-  "cls": "map",
-  "genre": "身の回りのもの"
+  "en": "bridge",
+  "ja": "橋",
+  "fu": "はし",
+  "cls": "bridge",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "clock",
-  "ja": "時計",
-  "cls": "clock",
-  "genre": "身の回りのもの"
- },
- {
-  "en": "camera",
-  "ja": "カメラ",
-  "cls": "camera",
-  "genre": "身の回りのもの"
- },
- {
-  "en": "telephone",
-  "ja": "電話",
-  "cls": "telephone",
-  "genre": "身の回りのもの"
+  "en": "broccoli",
+  "ja": "ブロッコリー",
+  "fu": "",
+  "cls": "broccoli",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
   "en": "bucket",
   "ja": "バケツ",
+  "fu": "",
   "cls": "bucket",
-  "genre": "身の回りのもの"
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "bus",
+  "ja": "バス",
+  "fu": "",
+  "cls": "bus",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "butterfly",
+  "ja": "蝶",
+  "fu": "ちょう",
+  "cls": "butterfly",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "cake",
+  "ja": "ケーキ",
+  "fu": "",
+  "cls": "cake",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "camel",
+  "ja": "ラクダ",
+  "fu": "",
+  "cls": "camel",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "camera",
+  "ja": "カメラ",
+  "fu": "",
+  "cls": "camera",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "camping",
+  "ja": "キャンプ",
+  "fu": "",
+  "cls": "tent",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "car",
+  "ja": "車",
+  "fu": "くるま",
+  "cls": "car",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "castle",
+  "ja": "城",
+  "fu": "しろ",
+  "cls": "castle",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "chair",
+  "ja": "椅子",
+  "fu": "いす",
+  "cls": "chair",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "church",
+  "ja": "教会",
+  "fu": "きょうかい",
+  "cls": "church",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "clock",
+  "ja": "時計",
+  "fu": "とけい",
+  "cls": "clock",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "cloud",
+  "ja": "雲",
+  "fu": "くも",
+  "cls": "cloud",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "coffee",
+  "ja": "コーヒー",
+  "fu": "",
+  "cls": "coffee_cup",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "computer",
+  "ja": "コンピューター",
+  "fu": "",
+  "cls": "computer",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "cookie",
+  "ja": "クッキー",
+  "fu": "",
+  "cls": "cookie",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "crab",
+  "ja": "蟹",
+  "fu": "かに",
+  "cls": "crab",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "crocodile",
+  "ja": "ワニ",
+  "fu": "",
+  "cls": "crocodile",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
   "en": "cup",
   "ja": "カップ",
+  "fu": "",
   "cls": "cup",
-  "genre": "身の回りのもの（食器系）"
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "fork",
-  "ja": "フォーク",
-  "cls": "fork",
-  "genre": "身の回りのもの（食器系）"
+  "en": "dolphin",
+  "ja": "イルカ",
+  "fu": "",
+  "cls": "dolphin",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
-  "en": "spoon",
-  "ja": "スプーン",
-  "cls": "spoon",
-  "genre": "身の回りのもの（食器系）"
+  "en": "donut",
+  "ja": "ドーナツ",
+  "fu": "",
+  "cls": "donut",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
   "en": "door",
   "ja": "ドア",
+  "fu": "",
   "cls": "door",
-  "genre": "身の回りのもの（家系）"
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "drum",
+  "ja": "ドラム",
+  "fu": "",
+  "cls": "drums",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "duck",
+  "ja": "鴨",
+  "fu": "かも",
+  "cls": "duck",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "elbow",
+  "ja": "肘",
+  "fu": "ひじ",
+  "cls": "elbow",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "face",
+  "ja": "顔",
+  "fu": "かお",
+  "cls": "face",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "fish",
+  "ja": "魚",
+  "fu": "さかな",
+  "cls": "fish",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "flower",
+  "ja": "花",
+  "fu": "はな",
+  "cls": "flower",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "fork",
+  "ja": "フォーク",
+  "fu": "",
+  "cls": "fork",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "frog",
+  "ja": "蛙",
+  "fu": "かえる",
+  "cls": "frog",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "giraffe",
+  "ja": "キリン",
+  "fu": "",
+  "cls": "giraffe",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "glasses",
+  "ja": "眼鏡",
+  "fu": "めがね",
+  "cls": "eyeglasses",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "grapes",
+  "ja": "ぶどう",
+  "fu": "",
+  "cls": "grapes",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "guitar",
+  "ja": "ギター",
+  "fu": "",
+  "cls": "guitar",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "hamburger",
+  "ja": "ハンバーガー",
+  "fu": "",
+  "cls": "hamburger",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "hand",
+  "ja": "手",
+  "fu": "て",
+  "cls": "hand",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "hot dog",
+  "ja": "ホットドッグ",
+  "fu": "",
+  "cls": "hot_dog",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "house",
+  "ja": "家",
+  "fu": "いえ",
+  "cls": "house",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "ice cream",
+  "ja": "アイスクリーム",
+  "fu": "",
+  "cls": "ice_cream",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "kangaroo",
+  "ja": "カンガルー",
+  "fu": "",
+  "cls": "kangaroo",
+  "grades": [
+   5,
+   6
+  ]
  },
  {
   "en": "key",
   "ja": "鍵",
+  "fu": "かぎ",
   "cls": "key",
-  "genre": "身の回りのもの（家系）"
- },
- {
-  "en": "sofa",
-  "ja": "ソファ",
-  "cls": "couch",
-  "genre": "身の回りのもの（家系）"
- },
- {
-  "en": "table",
-  "ja": "テーブル",
-  "cls": "table",
-  "genre": "身の回りのもの（家系）"
+  "grades": [
+   5,
+   6
+  ]
  },
  {
   "en": "lamp",
   "ja": "ランプ",
+  "fu": "",
   "cls": "floor_lamp",
-  "genre": "身の回りのもの（家系）"
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "leg",
+  "ja": "脚",
+  "fu": "あし",
+  "cls": "leg",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "lion",
+  "ja": "ライオン",
+  "fu": "",
+  "cls": "lion",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "mountain",
+  "ja": "山",
+  "fu": "やま",
+  "cls": "mountain",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "mug",
+  "ja": "マグカップ",
+  "fu": "",
+  "cls": "mug",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "octopus",
+  "ja": "蛸",
+  "fu": "たこ",
+  "cls": "octopus",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "pear",
+  "ja": "梨",
+  "fu": "なし",
+  "cls": "pear",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "penguin",
+  "ja": "ペンギン",
+  "fu": "",
+  "cls": "penguin",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "piano",
+  "ja": "ピアノ",
+  "fu": "",
+  "cls": "piano",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "pig",
+  "ja": "豚",
+  "fu": "ぶた",
+  "cls": "pig",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "pizza",
+  "ja": "ピザ",
+  "fu": "",
+  "cls": "pizza",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "racket",
+  "ja": "ラケット",
+  "fu": "",
+  "cls": "tennis_racquet",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "rain",
+  "ja": "雨",
+  "fu": "あめ",
+  "cls": "rain",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "rainbow",
+  "ja": "虹",
+  "fu": "にじ",
+  "cls": "rainbow",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "river",
+  "ja": "川",
+  "fu": "かわ",
+  "cls": "river",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "sandwich",
+  "ja": "サンドイッチ",
+  "fu": "",
+  "cls": "sandwich",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "sea turtle",
+  "ja": "海亀",
+  "fu": "うみがめ",
+  "cls": "sea_turtle",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "shark",
+  "ja": "サメ",
+  "fu": "",
+  "cls": "shark",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "ship",
+  "ja": "船",
+  "fu": "ふね",
+  "cls": "cruise_ship",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "shoe",
+  "ja": "靴",
+  "fu": "くつ",
+  "cls": "shoe",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "smartphone",
+  "ja": "スマートフォン",
+  "fu": "",
+  "cls": "cell_phone",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "snail",
+  "ja": "カタツムリ",
+  "fu": "",
+  "cls": "snail",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "snow",
+  "ja": "雪",
+  "fu": "ゆき",
+  "cls": "snowflake",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "sock",
+  "ja": "靴下",
+  "fu": "くつした",
+  "cls": "sock",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "sofa",
+  "ja": "ソファ",
+  "fu": "",
+  "cls": "couch",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "spoon",
+  "ja": "スプーン",
+  "fu": "",
+  "cls": "spoon",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "sun",
+  "ja": "太陽",
+  "fu": "たいよう",
+  "cls": "sun",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "swimming pool",
+  "ja": "プール",
+  "fu": "",
+  "cls": "pool",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "T-shirt",
+  "ja": "Tシャツ",
+  "fu": "",
+  "cls": "t-shirt",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "table",
+  "ja": "テーブル",
+  "fu": "",
+  "cls": "table",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "teeth",
+  "ja": "歯",
+  "fu": "は",
+  "cls": "tooth",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "telephone",
+  "ja": "電話",
+  "fu": "でんわ",
+  "cls": "telephone",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "thunder",
+  "ja": "雷",
+  "fu": "かみなり",
+  "cls": "lightning",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "traffic light",
+  "ja": "信号",
+  "fu": "しんごう",
+  "cls": "traffic_light",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "train",
+  "ja": "電車",
+  "fu": "でんしゃ",
+  "cls": "train",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "truck",
+  "ja": "トラック",
+  "fu": "",
+  "cls": "truck",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "tv",
+  "ja": "テレビ",
+  "fu": "",
+  "cls": "television",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "umbrella",
+  "ja": "傘",
+  "fu": "かさ",
+  "cls": "umbrella",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "violin",
+  "ja": "バイオリン",
+  "fu": "",
+  "cls": "violin",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "watch",
+  "ja": "時計",
+  "fu": "とけい",
+  "cls": "wristwatch",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "watermelon",
+  "ja": "スイカ",
+  "fu": "",
+  "cls": "watermelon",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "whale",
+  "ja": "鯨",
+  "fu": "くじら",
+  "cls": "whale",
+  "grades": [
+   5,
+   6
+  ]
+ },
+ {
+  "en": "zebra",
+  "ja": "シマウマ",
+  "fu": "",
+  "cls": "zebra",
+  "grades": [
+   5,
+   6
+  ]
  }
 ];

@@ -45,6 +45,7 @@ main { width: 100%; max-width: 1400px; padding: 10px 14px 14px; position: relati
 .icon-btn { font-size: 1.3rem; background: var(--white); border: 3px solid var(--ink); border-radius: 50%; width: 46px; height: 46px; box-shadow: 3px 3px 0 var(--ink); cursor: pointer; line-height: 1; padding: 0; }
 .icon-btn.small { width: 36px; height: 36px; font-size: 1rem; }
 #mute { position: fixed; top: 10px; right: 10px; z-index: 30; }
+#help { position: fixed; top: 10px; right: 66px; z-index: 30; font-weight: 800; font-family: inherit; }
 
 /* ---------- start ---------- */
 .hero { padding-top: 4vh; display: flex; flex-direction: column; align-items: center; gap: 6px; }
@@ -131,11 +132,11 @@ main { width: 100%; max-width: 1400px; padding: 10px 14px 14px; position: relati
 .small-label { margin: 0; color: #6d7694; font-size: 1.1rem; }
 .introword { font-size: clamp(3rem, 14vw, 5rem); line-height: 1; background: var(--sun); border: 3px solid var(--ink); border-radius: 18px; padding: 8px 24px; transform: rotate(-2deg); }
 
-.result { margin: 14px auto; position: relative; padding-top: 34px; }
+.result { margin: 14px auto; position: relative; padding-top: 44px; }
 .stamp { position: absolute; top: -22px; left: 50%; font-size: 1.9rem; padding: 4px 22px; border: 4px solid var(--ink); border-radius: 12px; background: var(--mint); box-shadow: var(--shadow); transform: translateX(-50%) rotate(-4deg); white-space: nowrap; animation: stampIn .45s cubic-bezier(.2, 1.8, .4, 1); }
 .miss .stamp { background: var(--berry); color: #fff; }
 @keyframes stampIn { from { transform: translateX(-50%) rotate(-14deg) scale(2.4); opacity: 0; } }
-#resultImg { width: min(60vw, 220px); aspect-ratio: 1; background: #fff; border: 3px solid var(--ink); border-radius: 14px; transform: rotate(1.5deg); box-shadow: 4px 4px 0 var(--grid); }
+#resultImg { width: min(60vw, 220px, 32vh); aspect-ratio: 1; background: #fff; border: 3px solid var(--ink); border-radius: 14px; transform: rotate(1.5deg); box-shadow: 4px 4px 0 var(--grid); }
 .resultEn { font-size: 1.5rem; }
 .resultJa { font-size: 3.4rem; line-height: 1.1; color: var(--berry); animation: jaIn .5s .25s cubic-bezier(.2, 1.6, .4, 1) both; }
 .win .resultJa { color: var(--cobalt); }
@@ -162,4 +163,31 @@ h2 { font-size: 2.6rem; margin: 20px 0 6px; transform: rotate(-2deg); text-shado
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------- grade picker ---------- */
+.grades { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; margin: 4px 0 16px; }
+.grade-label { font-size: 1.1rem; width: 100%; }
+.chip { font: inherit; font-size: 1.1rem; background: var(--white); border: 3px solid var(--ink); border-radius: 999px; padding: 4px 16px; box-shadow: 3px 3px 0 var(--ink); cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--cobalt); color: #fff; transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+.chip:focus-visible { outline: 4px solid var(--cobalt); outline-offset: 3px; }
+
+/* ---------- tutorial modal ---------- */
+.tut { max-width: 600px; gap: 10px; }
+.tut h2 { margin: 0 0 4px; font-size: 2.2rem; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; width: 100%; text-align: left; }
+.steps li { display: flex; align-items: center; gap: 14px; background: var(--paper); border: 3px solid var(--ink); border-radius: 16px; padding: 8px 14px; font-size: 1.3rem; line-height: 1.4; }
+.steps .ico { font-size: 2rem; flex: none; }
+.tut-time { margin: 2px 0 4px; font-size: 1.3rem; }
+@media (max-height: 640px) { .tut { padding: 14px 20px; } .steps li { padding: 5px 12px; font-size: 1.15rem; } .tut h2 { font-size: 1.8rem; } .btn.big { font-size: 1.4rem; padding: 10px 28px; } }
+ruby rt { font-size: .38em; font-weight: 800; }
+
+/* short screens (e.g. 1366x598 Chromebooks): keep the start button above the fold */
+@media (max-height: 700px) {
+  .hero { padding-top: 0; gap: 0; }
+  .hero { padding-top: 8px; }
+  .hero .robot-slot { width: 112px; }
+  .hero h1 { font-size: 4.4rem; margin: 6px 0 12px; }
+  .sub { font-size: 1.2rem; margin: 2px 0 12px; }
+  .grades { margin: 0 0 12px; }
 }
