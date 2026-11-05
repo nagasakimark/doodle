@@ -7,7 +7,8 @@ const TOP_K = 5;            // how many guesses to ask the model for
 const WIN_TOP_N = 3;        // target counts if it is in the model's top N guesses...
 const WIN_MIN_CONF = 0.10;  // ...with at least this confidence (top-1 always wins)
 const CLASSIFY_EVERY_MS = 300;
-const LINE_WIDTH = 16;
+const LINE_WIDTH = 8;          // pen width on screen (canvas is 560px internally)
+const MODEL_LINE_WIDTH = 28;   // pen width used for the copy the model sees (keeps recognition steady)
 const BASE_POINTS = 100, POINTS_PER_SECOND = 10;
 
 const $ = (id) => document.getElementById(id);
@@ -85,6 +86,9 @@ function stepConfetti() {
 // ---------- canvas ----------
 const pad = $('pad');
 const ctx = pad.getContext('2d', { willReadFrequently: true });
+const modelPad = document.createElement('canvas'); // hidden copy of the drawing with a thicker pen, for the model
+modelPad.width = pad.width; modelPad.height = pad.height;
+const mctx = modelPad.getContext('2d', { willReadFrequently: true });
 const small = document.createElement('canvas');   // 28x28 canvas fed to DoodleNet
 small.width = small.height = 28;
 const sctx = small.getContext('2d', { willReadFrequently: true });
@@ -98,16 +102,17 @@ classifier = ml5.imageClassifier('DoodleNet', () => {
   $('startBtn').textContent = "Let's play!";
 });
 
-function repaint() {
-  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, pad.width, pad.height);
-  ctx.strokeStyle = '#000'; ctx.lineWidth = LINE_WIDTH; ctx.lineCap = ctx.lineJoin = 'round';
+function paintStrokes(c, width) {
+  c.fillStyle = '#fff'; c.fillRect(0, 0, pad.width, pad.height);
+  c.strokeStyle = '#000'; c.lineWidth = width; c.lineCap = c.lineJoin = 'round';
   state.strokes.forEach((s) => {
-    ctx.beginPath(); ctx.moveTo(s[0][0], s[0][1]);
-    if (s.length === 1) ctx.lineTo(s[0][0] + 0.01, s[0][1]);
-    s.forEach((p) => ctx.lineTo(p[0], p[1]));
-    ctx.stroke();
+    c.beginPath(); c.moveTo(s[0][0], s[0][1]);
+    if (s.length === 1) c.lineTo(s[0][0] + 0.01, s[0][1]);
+    s.forEach((p) => c.lineTo(p[0], p[1]));
+    c.stroke();
   });
 }
+function repaint() { paintStrokes(ctx, LINE_WIDTH); }
 function setBubble(html, win = false) { const b = $('bubble'); b.innerHTML = `<span>${html}</span>`; b.classList.toggle('win', win); }
 function resetBubble() { setBubble('Start drawing!'); mood('idle'); }
 function pos(e) {
@@ -121,9 +126,15 @@ pad.addEventListener('pointerdown', (e) => {
 });
 pad.addEventListener('pointermove', (e) => {
   if (!state.drawing) return;
-  const s = state.strokes[state.strokes.length - 1], p = pos(e), q = s[s.length - 1];
-  s.push(p);
-  ctx.beginPath(); ctx.moveTo(q[0], q[1]); ctx.lineTo(p[0], p[1]); ctx.stroke();
+  const s = state.strokes[state.strokes.length - 1];
+  ctx.strokeStyle = '#000'; ctx.lineWidth = LINE_WIDTH; ctx.lineCap = ctx.lineJoin = 'round';
+  // coalesced events give every sampled point of a fast stroke, so lines stay smooth
+  const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [e];
+  (evs.length ? evs : [e]).forEach((ev) => {
+    const p = pos(ev), q = s[s.length - 1];
+    s.push(p);
+    ctx.beginPath(); ctx.moveTo(q[0], q[1]); ctx.lineTo(p[0], p[1]); ctx.stroke();
+  });
 });
 ['pointerup', 'pointercancel'].forEach((ev) => pad.addEventListener(ev, () => { state.drawing = false; }));
 $('clearBtn').onclick = () => { if (state.running) { state.strokes = []; repaint(); resetBubble(); sfx.pop(); } };
@@ -137,7 +148,8 @@ $('undoBtn').onclick = () => {
 // so thin or off-centre doodles look like the Quick Draw training images.
 function prepareInput() {
   const { width: w, height: h } = pad;
-  const d = ctx.getImageData(0, 0, w, h).data;
+  paintStrokes(mctx, MODEL_LINE_WIDTH);
+  const d = mctx.getImageData(0, 0, w, h).data;
   let minX = w, minY = h, maxX = -1, maxY = -1;
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
     if (d[(y * w + x) * 4] < 128) { if (x < minX) minX = x; if (x > maxX) maxX = x; if (y < minY) minY = y; if (y > maxY) maxY = y; }
@@ -149,7 +161,7 @@ function prepareInput() {
   sctx.fillStyle = '#fff'; sctx.fillRect(0, 0, 28, 28);
   sctx.imageSmoothingEnabled = true; sctx.imageSmoothingQuality = 'high';
   const dw = bw * scale, dh = bh * scale;
-  sctx.drawImage(pad, minX, minY, bw, bh, (28 - dw) / 2, (28 - dh) / 2, dw, dh);
+  sctx.drawImage(modelPad, minX, minY, bw, bh, (28 - dw) / 2, (28 - dh) / 2, dw, dh);
   const img = sctx.getImageData(0, 0, 28, 28);
   for (let i = 0; i < img.data.length; i += 4) {
     const v = img.data[i] < 215 ? 0 : 255;         // hard black/white (DoodleNet floors anything grey)
@@ -236,6 +248,13 @@ function guessNow() {
   });
 }
 
+function thumbnail() {           // small copy of the drawing for the result card and gallery
+  const t = document.createElement('canvas'); t.width = t.height = 240;
+  const tc = t.getContext('2d'); tc.fillStyle = '#fff'; tc.fillRect(0, 0, 240, 240);
+  tc.imageSmoothingQuality = 'high'; tc.drawImage(pad, 0, 0, 240, 240);
+  return t.toDataURL('image/png');
+}
+
 function finishRound(won) {
   if (!state.running) return;
   state.running = false; state.done = true; state.drawing = false;
@@ -245,7 +264,7 @@ function finishRound(won) {
   const left = Math.max(0, TIME_LIMIT - (performance.now() - state.t0) / 1000);
   const pts = won ? BASE_POINTS + Math.round(left) * POINTS_PER_SECOND : 0;
   state.score += pts;
-  const img = pad.toDataURL('image/png');
+  const img = thumbnail();
   state.log.push({ word: w, won, pts, img });
 
   // a short beat on the game screen so the robot can react, then the result card

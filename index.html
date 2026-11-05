@@ -54,20 +54,21 @@
       <div class="pill" id="score">0 pts</div>
     </header>
 
-    <div class="stage">
-      <div class="sheet" id="sheet">
-        <div class="wordtag"><span>Draw</span><b id="word">apple</b><button id="speak" class="icon-btn small" aria-label="Listen">🔊</button></div>
-        <canvas id="pad" width="320" height="320"></canvas>
-        <div class="tools">
-          <button id="undoBtn" class="btn sm">↩ Undo</button>
-          <button id="clearBtn" class="btn sm">🗑 Clear</button>
-        </div>
-      </div>
-      <aside class="bot">
-        <div class="robot-slot" id="gameBot" data-mood="idle"></div>
-        <div class="bubble" id="bubble">Start drawing!</div>
-      </aside>
+    <div class="wordtag"><span>Draw</span><b id="word">apple</b><button id="speak" class="icon-btn small" aria-label="Listen">🔊</button></div>
+
+    <div class="sheet" id="sheet">
+      <canvas id="pad" width="560" height="560"></canvas>
     </div>
+
+    <div class="tools">
+      <button id="undoBtn" class="btn sm">↩ Undo</button>
+      <button id="clearBtn" class="btn sm">🗑 Clear</button>
+    </div>
+
+    <aside class="bot">
+      <div class="robot-slot" id="gameBot" data-mood="idle"></div>
+      <div class="bubble" id="bubble">Start drawing!</div>
+    </aside>
 
     <!-- intro card: shows the word before the clock starts -->
     <div id="intro" class="overlay">
