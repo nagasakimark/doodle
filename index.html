@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Doodle Time!</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <section id="start" class="screen">
+    <h1>✏️ Doodle Time!</h1>
+    <p class="sub">Draw the word. Can the computer guess it?</p>
+    <button id="startBtn" class="big" disabled>Loading brain…</button>
+    <p id="loadMsg" class="small">Loading the doodle model (first time takes a few seconds)</p>
+  </section>
+
+  <section id="game" class="screen hidden">
+    <div class="top">
+      <div id="round">1 / 5</div>
+      <div id="timer">20</div>
+      <div id="score">⭐ 0</div>
+    </div>
+    <div class="prompt">
+      <span>Draw:</span> <strong id="word">apple</strong>
+      <button id="speak" title="Listen" aria-label="Listen">🔊</button>
+    </div>
+    <div class="timebar"><div id="timebarFill"></div></div>
+    <canvas id="pad" width="320" height="320"></canvas>
+    <div id="guess" class="guess">I see…</div>
+    <div class="row">
+      <button id="clearBtn">🗑 Clear</button>
+    </div>
+  </section>
+
+  <section id="result" class="screen hidden">
+    <div id="resultEmoji">🎉</div>
+    <h2 id="resultTitle">I got it!</h2>
+    <p id="resultEn" class="resultEn"></p>
+    <p id="resultJa" class="resultJa"></p>
+    <canvas id="resultImg" width="160" height="160"></canvas>
+    <button id="nextBtn" class="big">Next ▶</button>
+  </section>
+
+  <section id="end" class="screen hidden">
+    <h2>Finished!</h2>
+    <p id="finalScore" class="resultEn"></p>
+    <ul id="summary"></ul>
+    <button id="againBtn" class="big">Play again</button>
+  </section>
+</main>
+
+<!-- ml5 pinned to 0.12.2: DoodleNet (345 Quick Draw classes) is available in the 0.x line -->
+<script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js"></script>
+<script src="words.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
