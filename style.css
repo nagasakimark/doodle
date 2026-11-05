@@ -150,12 +150,13 @@ h2 { font-size: 2.6rem; margin: 20px 0 6px; transform: rotate(-2deg); text-shado
 .final { display: inline-flex; flex-direction: column; align-items: center; background: var(--sun); border: 3px solid var(--ink); border-radius: 22px; box-shadow: 6px 6px 0 var(--ink); padding: 6px 34px 10px; transform: rotate(1.5deg); margin: 6px 0 12px; }
 .final span { font-size: 4.4rem; line-height: 1.05; }
 .final small { font-size: 1.1rem; }
-.gallery { list-style: none; padding: 0; margin: 14px 0 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+.gallery { list-style: none; padding: 0; margin: 14px auto 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 180px)); justify-content: center; gap: 14px; max-width: 1000px; }
 .gallery li { background: var(--white); border: 3px solid var(--ink); border-radius: 16px; padding: 8px; box-shadow: 4px 4px 0 var(--ink); position: relative; }
 .gallery li:nth-child(odd) { transform: rotate(-1.2deg); } .gallery li:nth-child(even) { transform: rotate(1.2deg); }
 .gallery img { width: 100%; aspect-ratio: 1; border-radius: 8px; border: 2px solid var(--grid); background: #fff; }
 .gallery .en { font-size: 1.15rem; margin-top: 4px; }
-.gallery .ja { font-size: .95rem; color: #6d7694; }
+.gallery .ja { font-size: 1.2rem; white-space: nowrap; letter-spacing: -.03em; color: var(--cobalt); line-height: 1.2; }
+.gallery li.lost .ja { color: var(--berry); }
 .gallery .badge { position: absolute; top: -10px; right: -10px; width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--ink); display: grid; place-items: center; background: var(--mint); font-size: 1rem; }
 .gallery li.lost .badge { background: var(--berry); }
 
@@ -190,4 +191,13 @@ ruby rt { font-size: .38em; font-weight: 800; }
   .hero h1 { font-size: 4.4rem; margin: 6px 0 12px; }
   .sub { font-size: 1.2rem; margin: 2px 0 12px; }
   .grades { margin: 0 0 12px; }
+}
+
+/* short screens (Chromebooks are 1366x598): keep the whole end screen in view */
+@media (max-height: 700px) {
+  #end h2 { font-size: 2.1rem; margin: 6px 0 2px; }
+  #end .final { padding: 2px 28px 6px; margin: 4px 0 4px; }
+  #end .final span { font-size: 3.2rem; }
+  #end .sub { margin: 4px 0 6px; font-size: 1.15rem; }
+  .gallery { margin: 8px auto 14px; grid-template-columns: repeat(auto-fit, minmax(120px, 150px)); }
 }
