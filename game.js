@@ -8,7 +8,9 @@ const WIN_TOP_N = 3;        // target counts if it is in the model's top N guess
 const WIN_MIN_CONF = 0.10;  // ...with at least this confidence (top-1 always wins)
 const CLASSIFY_EVERY_MS = 300;
 const LINE_WIDTH = 8;          // pen width on screen (canvas is 560px internally)
-const MODEL_LINE_WIDTH = 28;   // pen width used for the copy the model sees (keeps recognition steady)
+// The model sees thicker copies of the drawing than the screen shows (a thin 28px thumbnail line vanishes).
+// Thick pens merge close-together lines, thin pens lose strokes, so we ask at two pen widths and accept either.
+const MODEL_LINE_WIDTHS = [24, 14];
 const BASE_POINTS = 100, POINTS_PER_SECOND = 10;
 
 const $ = (id) => document.getElementById(id);
@@ -146,9 +148,9 @@ $('undoBtn').onclick = () => {
 
 // Crop the drawing to its bounding box, centre it on a 28x28 canvas and threshold it,
 // so thin or off-centre doodles look like the Quick Draw training images.
-function prepareInput() {
+function prepareInput(penWidth) {
   const { width: w, height: h } = pad;
-  paintStrokes(mctx, MODEL_LINE_WIDTH);
+  paintStrokes(mctx, penWidth);
   const d = mctx.getImageData(0, 0, w, h).data;
   let minX = w, minY = h, maxX = -1, maxY = -1;
   for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
@@ -230,22 +232,30 @@ function tick() {
   if (left <= 0) finishRound(false);
 }
 
-function guessNow() {
+const classifyAsync = (input) => new Promise((res) => classifier.classify(input, TOP_K, (err, r) => res(err ? null : r)));
+const isWin = (results, targetLabel) => {
+  const hit = results.findIndex((r) => norm(r.label) === targetLabel);
+  return hit === 0 || (hit > 0 && hit < WIN_TOP_N && results[hit].confidence >= WIN_MIN_CONF);
+};
+
+async function guessNow() {
   if (!state.running || state.busy || !state.strokes.length) return;
-  const input = prepareInput();
-  if (!input) return;
   state.busy = true;
   const target = state.word;
-  classifier.classify(input, TOP_K, (err, results) => {
-    state.busy = false;
-    if (err || !state.running || state.word !== target || !results || !results.length) return;
-    const names = results.slice(0, 3).map((r) => `<b>${norm(r.label)}</b>`);
-    state.lastGuess = norm(results[0].label);
+  try {
+    const all = [];
+    for (const w of MODEL_LINE_WIDTHS) {
+      const input = prepareInput(w);
+      if (!input) return;
+      const r = await classifyAsync(input);
+      if (r && r.length) all.push(r);
+    }
+    if (!state.running || state.word !== target || !all.length) return;
+    const names = all[0].slice(0, 3).map((r) => `<b>${norm(r.label)}</b>`);
+    state.lastGuess = norm(all[0][0].label);
     setBubble(`I see ${names.join(', or ')}…`);
-    const targetLabel = norm(target.cls);
-    const hit = results.findIndex((r) => norm(r.label) === targetLabel);
-    if (hit === 0 || (hit > 0 && hit < WIN_TOP_N && results[hit].confidence >= WIN_MIN_CONF)) finishRound(true);
-  });
+    if (all.some((r) => isWin(r, norm(target.cls)))) finishRound(true);
+  } finally { state.busy = false; }
 }
 
 function thumbnail() {           // small copy of the drawing for the result card and gallery
